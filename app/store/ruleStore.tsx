@@ -18,7 +18,7 @@ interface RuleStore {
   addRule: (rule: Rule) => void;
   setSubstances: (substances: { [group: string]: { code: string; display: string }[] }) => void;
   setSubstanceIdToNameMap: (map: { [id: string]: string }) => void;
-  fetchSubstances: () => Promise<void>; // Add fetchSubstances to the store interface
+  // fetchSubstances: () => Promise<void>; // Add fetchSubstances to the store interface
 }
 
 export const useRuleStore = create<RuleStore>((set) => ({
@@ -35,29 +35,43 @@ export const useRuleStore = create<RuleStore>((set) => ({
       ),
     })),
 
-  setSubstances: (substances) => set({ substances }),
-  setSubstanceIdToNameMap: (map) => set({ substanceIdToNameMap: map }),
-
-  fetchSubstances: async () => {
-    try {
-      const substances = await fetchAndGroupSubstances(); // Fetch grouped substances from FHIR service
-      // const substanceIdToNameMap = Object.keys(substances).reduce((map, group) => {
-      //   substances[group].forEach((substance) => {
-      //     map[substance.code] = substance.display;
-      //   });
-      //   return map;
-      // }, {});
-
-      const substanceIdToNameMap: { [id: string]: string } = Object.keys(substances).reduce((map, group) => {
+  // setSubstances: (substances) => set({ substances }),
+  setSubstances: (substances) => {
+    // Generate substanceIdToNameMap
+    const substanceIdToNameMap: { [id: string]: string } = Object.keys(substances).reduce(
+      (map, group) => {
         substances[group].forEach((substance) => {
           map[substance.code] = substance.display;
         });
         return map;
-      }, {} as { [id: string]: string }); // Explicitly typing the accumulator
-
-      set({ substances, substanceIdToNameMap }); // Update Zustand's state with the fetched data
-    } catch (error) {
-      console.error('Error fetching substances:', error);
-    }
+      },
+      {} as { [id: string]: string }
+    );
+    set({ substances, substanceIdToNameMap });
   },
+  setSubstanceIdToNameMap: (map) => set({ substanceIdToNameMap: map }),
+
+  // fetchSubstances: async () => {
+  //   try {
+  //     const substances = await fetchAndGroupSubstances(); // Fetch grouped substances from FHIR service
+  //     // const substanceIdToNameMap = Object.keys(substances).reduce((map, group) => {
+  //     //   substances[group].forEach((substance) => {
+  //     //     map[substance.code] = substance.display;
+  //     //   });
+  //     //   return map;
+  //     // }, {});
+
+  //     const substanceIdToNameMap: { [id: string]: string } = Object.keys(substances).reduce((map, group) => {
+  //       substances[group].forEach((substance) => {
+  //         map[substance.code] = substance.display;
+  //       });
+  //       return map;
+  //     }, {} as { [id: string]: string }); // Explicitly typing the accumulator
+
+  //     set({ substances, substanceIdToNameMap }); // Update Zustand's state with the fetched data
+  //   } catch (error) {
+  //     console.error('Error fetching substances:', error);
+  //   }
+  // },
+
 }));

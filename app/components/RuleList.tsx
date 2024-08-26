@@ -22,8 +22,12 @@ import { useRuleStore } from "../store/ruleStore";
 import { read, utils, writeFileXLSX, WorkBook } from "xlsx";
 import { Substance, Rule } from '../types/RuleTypes';
 
-export default function RuleList() {
-  const { rules, setRules, fetchSubstances, substancesLoaded, substanceIdToNameMap } = useRuleStore();
+interface RuleListProps {
+  groupedSubstances: { [group: string]: { code: string; display: string }[] };
+}
+
+export default function RuleList({ groupedSubstances }: RuleListProps) {
+  const { rules, setRules, setSubstances, substanceIdToNameMap } = useRuleStore();
   const [selectedRule, setSelectedRule] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [fileName, setFileName] = useState("");
@@ -32,19 +36,24 @@ export default function RuleList() {
   const [headers, setHeaders] = useState<string[][]>([]); // Store headers for saving
   const [ruleSource, setRuleSource] = useState("scratch"); // Track rule source
 
-  useEffect(() => {
-    const loadSubstances = async () => {
-      if (!substancesLoaded) {
-        setLoading(true);
-        await fetchSubstances();
-        setLoading(false);
-      } else {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const loadSubstances = async () => {
+  //     if (!substancesLoaded) {
+  //       setLoading(true);
+  //       await fetchSubstances();
+  //       setLoading(false);
+  //     } else {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    loadSubstances();
-  }, [fetchSubstances, substancesLoaded]);
+  //   loadSubstances();
+  // }, [fetchSubstances, substancesLoaded]);
+
+  useEffect(() => {
+    setSubstances(groupedSubstances);
+    console.log('setting substances!!!');
+  }, [groupedSubstances, setSubstances]);
 
   // Handle creating a new rule
   const handleCreateNewRule = () => {
@@ -132,7 +141,7 @@ export default function RuleList() {
       const workbook = read(new Uint8Array(arrayBuffer), { type: "array" });
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
-  
+
       const sheetData = utils.sheet_to_json(sheet, { header: 1 }) as unknown[][]; // Casting the sheet data as a 2D array of unknowns
 
       const sampleHeaders = sheetData.slice(0, 9) as string[][];
