@@ -9,8 +9,7 @@ export async function fetchAndGroupSubstances(): Promise<GroupedSubstances> {
   try {
     const response = await axios.get("https://jpa.unicom.datawizard.it/fhir/CodeSystem/substance-sms-cs");
     const concepts = response.data.concept || [];
-
-    // Group substances by their base name (using first few characters as a heuristic)
+    console.log('loading subs!!');
     const groupedSubstances: { [group: string]: { code: string, display: string }[] } = {};
 
     concepts.forEach((concept: { code: string; display: string }) => {
@@ -23,7 +22,7 @@ export async function fetchAndGroupSubstances(): Promise<GroupedSubstances> {
       }
       groupedSubstances[baseName].push({ code: concept.code, display: camelCaseDisplay });
     });
-
+    console.log('loaded... ', groupedSubstances);
     return groupedSubstances;
   } catch (error) {
     console.error("Error fetching CodeSystem:", error);
