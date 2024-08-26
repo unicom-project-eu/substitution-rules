@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 34, 34, 34; /* Darker foreground for readability */
+  --background-start-rgb: 250, 250, 250; /* Very light grey */
+  --background-end-rgb: 255, 255, 255; /* White */
+  --card-background-rgb: 255, 255, 255; /* White background for cards */
+  --card-shadow-color: rgba(0, 0, 0, 0.05); /* Softer shadow */
+  --primary-color: #1976d2; /* Primary blue */
+  --primary-color-hover: #1565c0; /* Darker blue on hover */
+  --secondary-color: #d32f2f; /* Red for secondary actions */
+  --secondary-color-hover: #c62828; /* Darker red on hover */
+}
+
+/* Dark mode styles using the 'dark' class */
+.dark :root {
+  --foreground-rgb: 220, 220, 220;
+  --background-start-rgb: 24, 24, 24; /* Dark grey */
+  --background-end-rgb: 32, 32, 32; /* Slightly lighter dark grey */
+  --card-background-rgb: 40, 40, 40; /* Dark background for cards */
+  --card-shadow-color: rgba(0, 0, 0, 0.2); /* Stronger shadow for dark mode */
+  --primary-color: #bb86fc; /* Lighter purple for dark mode */
+  --primary-color-hover: #985eff; /* Darker purple on hover */
+  --secondary-color: #cf6679; /* Light red for secondary actions */
+  --secondary-color-hover: #b04c5c; /* Darker red on hover */
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background-color: rgb(var(--card-background-rgb));
+  border-radius: 1rem; /* Softer rounded corners */
+  box-shadow: 0 8px 16px var(--card-shadow-color); /* Slightly more prominent shadow */
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.card-header {
+  font-size: 1.75rem; /* Larger header for emphasis */
+  font-weight: 700; /* Stronger font weight for headings */
+  margin-bottom: 16px;
+  color: rgb(var(--foreground-rgb));
+}
+
+.card-content {
+  color: rgb(var(--foreground-rgb));
+}
+
+.text-field {
+  margin-bottom: 16px;
+  background-color: white; /* Ensure white background for inputs */
+  border-radius: 0.5rem; /* Softer rounded input fields */
+  padding: 12px; /* Increased padding for inputs */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Slight inner shadow */
+}
+
+.text-field:focus {
+  outline: none;
+  border: 2px solid var(--primary-color); /* Primary color border on focus */
+}
+
+.button-primary {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.button-primary:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.button-secondary {
+  background-color: var(--secondary-color);
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.button-secondary:hover {
+  background-color: var(--secondary-color-hover);
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* Responsive grid with larger minimum column size */
+  gap: 20px; /* Increased gap for better spacing */
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .shadow-custom {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05); /* Larger shadow for better depth */
+  }
+
+  .rounded-custom {
+    border-radius: 0.5rem; /* Softer rounded corners */
+  }
+}
