@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import getConfig from 'next/config';
 import {
   Table,
   TableBody,
@@ -36,9 +35,6 @@ export default function RuleList({ groupedSubstances }: RuleListProps) {
   const [workbook, setWorkbook] = useState<WorkBook | null>(null); // Store the workbook in memory
   const [headers, setHeaders] = useState<string[][]>([]); // Store headers for saving
   const [ruleSource, setRuleSource] = useState("scratch"); // Track rule source
-  
-  const { publicRuntimeConfig } = getConfig();
-  const basePath = publicRuntimeConfig.basePath || '';
   // useEffect(() => {
   //   const loadSubstances = async () => {
   //     if (!substancesLoaded) {
@@ -139,7 +135,7 @@ export default function RuleList({ groupedSubstances }: RuleListProps) {
       setRuleSource("sample");
       
       // Fetch the sample Excel file from the public directory
-      const response = await fetch(`${basePath}/sample_rules.xlsx`);
+      const response = await fetch('/substitution-rules/sample_rules.xlsx');
       const arrayBuffer = await response.arrayBuffer();
 
       // Read the Excel file using xlsx
