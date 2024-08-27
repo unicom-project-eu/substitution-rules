@@ -135,7 +135,7 @@ export default function RuleList({ groupedSubstances }: RuleListProps) {
     try {
       setRuleSource("sample");
       // Fetch the sample Excel file from the public directory
-      const response = await fetch("${basePath}/sample_rules.xlsx");
+      const response = await fetch("/sample_rules.xlsx");
       const arrayBuffer = await response.arrayBuffer();
 
       // Read the Excel file using xlsx
