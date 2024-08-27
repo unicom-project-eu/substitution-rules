@@ -3,8 +3,8 @@
 
 const nextConfig = {
     output: 'export',
-    basePath: '/substitution-rules',
-    assetPrefix: '/substitution-rules/',
+    // basePath: '/substitution-rules',
+    // assetPrefix: '/substitution-rules/',
 };
 
 

@@ -52,6 +52,7 @@ export default function RuleList({ groupedSubstances }: RuleListProps) {
 
   useEffect(() => {
     setSubstances(groupedSubstances);
+    setLoading(false);
     console.log('setting substances!!!');
   }, [groupedSubstances, setSubstances]);
 
